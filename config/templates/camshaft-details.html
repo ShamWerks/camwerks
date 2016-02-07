@@ -1,0 +1,98 @@
+<!DOCTYPE style PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<style>
+body {
+	font: Verdana;
+	margin:10px;
+}
+
+.h2bg {
+  margin: 15px 0px 5px 0px;
+  padding: 3px;
+  background-color: #000000;
+  color:#ffffff
+}
+
+</style>
+</head>
+<body>
+
+	<h2>[CAMSHAFT_NAME]</h2>
+
+    <h3 class="h2bg">[TEMPLATE_HEADER_LIFT]</h3>
+    
+    <table>
+        <tr>
+            <td></td>
+            [CAMSHAFT_COLUMNS_HEADERS]
+        </tr>
+
+        <tr>
+            <th>Levée came :</th>
+            [CAMSHAFT_COLUMNS_LIFTS]
+        </tr>
+
+        <tr>
+            <th>Culbuteur 1.25</th>
+            [CAMSHAFT_COLUMNS_ROCKER_1.25]
+        </tr>
+
+        <tr>
+            <th>Culbuteur 1.4</th>
+            [CAMSHAFT_COLUMNS_ROCKER_1.4]
+        </tr>
+
+    </table>
+
+    <h3 class="h2bg">[TEMPLATE_HEADER_DURATION]</h3>
+    <table>
+        <tr>
+            <td></td>
+            [CAMSHAFT_COLUMNS_HEADERS]
+        </tr>
+
+        <tr>
+          <th>[TEMPLATE_COLUM_HEADER_DURATION] @0.5mm :</th>
+            [CAMSHAFT_COLUMNS_DURATION_0.5]
+        </tr>
+        <tr>
+          <th>[TEMPLATE_COLUM_HEADER_DURATION] @1mm :</th>
+            [CAMSHAFT_COLUMNS_DURATION_1]
+        </tr>
+        <tr>
+          <th>[TEMPLATE_COLUM_HEADER_DURATION] @1.27mm :</th>
+            [CAMSHAFT_COLUMNS_DURATION_1.27]
+        </tr>
+    </table>
+
+    <h3 class="h2bg">[TEMPLATE_HEADER_OVERLAP]</h3>
+    <table>
+        <tr>
+            <td></td>
+            [CAMSHAFT_COLUMNS_HEADERS]
+        </tr>
+
+        <tr>
+          <th>Duree @0.5mm :</th>
+            [CAMSHAFT_COLUMNS_DURATION_0.5]
+        </tr>
+        <tr>
+          <th>Duree @1mm :</th>
+            [CAMSHAFT_COLUMNS_DURATION_1]
+        </tr>
+        <tr>
+          <th>Duree @1.27mm :</th>
+            [CAMSHAFT_COLUMNS_DURATION_1.27]
+        </tr>
+    </table>
+
+
+
+
+
+    <p><i>CamWerks [CAMWERKS_VERSION]</i></p>
+	<p>	<img src="[FILE_PATH]shamwerks.jpg"> ShamWerks.com &copy; 2015</p>
+
+</body>
+</html>
