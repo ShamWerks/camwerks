@@ -219,6 +219,41 @@ public class Camshaft {
 		this.nbCycles = nbCycles;
 	}
 
+	public void getOverlap(double lift){
+		//this.nbSteps = nbValues;
+		//this.nbCylinders = nbCylinders;
+		//this.nbIntakeCamPerCylinder = nbIntakeCamPerCylinder;
+		//this.nbExhaustCamPerCylinder = nbExhaustCamPerCylinder;		
+		
+		for(int c=1 ; c<=nbCylinders ; c++){
+			System.out.println("OVERLAP");
+			System.out.println("OVERLAP cylindre = " + c);
+			
+			double exhClose = 0;
+			double admOpen = 0;
+			
+	        for(String key : cams.keySet()){
+	        	Cam cam = cams.get(key);
+
+	        	if(cam.getCylNumber() == c){
+
+	        		System.out.println("OVERLAP cylindre = " + c);
+
+	        		for (int j=0; j<cam.getValues().length ; j++){
+	        			//values += ";" + j + " " + cam.getValue(j);
+	        			if(cam.getCamType() == CamType.EXHAUST){
+	        				
+	        			}
+	        			else{
+	        				
+	        			}
+	        		}//end for cam values
+	        	}//end for cyl number
+	        }//end for cams
+			
+		}
+	}
+	
 	@Override
 	public String toString(){
 		String out = "Name=" + name + "\n";
