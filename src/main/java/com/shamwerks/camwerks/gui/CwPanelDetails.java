@@ -96,28 +96,36 @@ class CwPanelDetails extends JPanel {
 
 		if(camshaft != null){
 			
-			camshaft.getOverlap(1 , 1.27);
-			camshaft.getOverlap(2 , 1.27);
-			
 			fileContent = fileContent.replace("[CAMSHAFT_NAME]", camshaft.getName());
 			//columns
 			String colHeaders = "";
+			String colCylHeaders = "";
 			String colLifts = "";
 			String colDuration1 = "";
 			String colDuration127 = "";
 			String colDuration05 = "";
+			String colOverlap1 = "";
+			String colOverlap127 = "";
+			String colOverlap05 = "";
 			String colRocker125 = "";
 			String colRocker14  = "";
 			for(String key : camshaft.getKeys() ){
 				Cam cam = camshaft.getCam(key);
 				String admExh = cam.getCamType() == CamType.INTAKE?Lang.getText(LangEntry.TEMPLATE_DETAILS_INTAKE):Lang.getText(LangEntry.TEMPLATE_DETAILS_EXHAUST);
 				colHeaders     += "<th>"+Lang.getText(LangEntry.TEMPLATE_DETAILS_CYLINDER) + " " + cam.getCylNumber() + "<br>" + admExh + " " + cam.getCamNumber() + "</th>";
-				colLifts       += "<td>" + cam.getMaxLift() + "mm</td>";
-				colRocker125   += "<td>" + Toolbox.round(cam.getMaxLift() * 1.25F, 2) + "mm</td>";
-				colRocker14    += "<td>" + Toolbox.round(cam.getMaxLift() * 1.4F, 2) + "mm</td>";
-				colDuration1   += "<td>" + cam.getDuration(1) + "°</td>";
-				colDuration127 += "<td>" + cam.getDuration( 1.27F ) + "°</td>";
-				colDuration05  += "<td>" + cam.getDuration( 0.5F ) + "°</td>";
+				colLifts       += "<td align='right'>" + cam.getMaxLift() + "mm</td>";
+				colRocker125   += "<td align='right'>" + Toolbox.round(cam.getMaxLift() * 1.25F, 2) + "mm</td>";
+				colRocker14    += "<td align='right'>" + Toolbox.round(cam.getMaxLift() * 1.4F, 2) + "mm</td>";
+				colDuration1   += "<td align='right'>" + cam.getDuration(1) + "°</td>";
+				colDuration127 += "<td align='right'>" + cam.getDuration( 1.27F ) + "°</td>";
+				colDuration05  += "<td align='right'>" + cam.getDuration( 0.5F ) + "°</td>";
+			}
+
+			for(int c=1; c<=camshaft.getNbCylinders(); c++){
+				colCylHeaders += "<th>"+Lang.getText(LangEntry.TEMPLATE_DETAILS_CYLINDER) + " " + c + "</th>";
+				colOverlap1   += "<td align='right'>" + camshaft.getOverlap(c, 1) + "°</td>";
+				colOverlap127 += "<td align='right'>" + camshaft.getOverlap( c, 1.27d ) + "°</td>";
+				colOverlap05  += "<td align='right'>" + camshaft.getOverlap(c, 0.5d ) + "°</td>";
 			}
 
 			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_HEADERS]", colHeaders);
@@ -128,6 +136,13 @@ class CwPanelDetails extends JPanel {
 
 			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_ROCKER_1.25]", colRocker125);
 			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_ROCKER_1.4]", colRocker14);
+
+			fileContent = fileContent.replace("[CYLINDERS_COLUMNS_HEADERS]", colCylHeaders);
+			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OVERLAP_0.5]", colOverlap05);
+			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OVERLAP_1]", colOverlap1);
+			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OVERLAP_1.27]", colOverlap127);
+
+
 		}
 
 		return fileContent;

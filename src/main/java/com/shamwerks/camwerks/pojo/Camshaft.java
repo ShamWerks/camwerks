@@ -238,7 +238,6 @@ public class Camshaft {
         				peak = j;
         			}
         		}
-        		System.out.println("OVERLAP peak =" + peak);
 
         		if(cam.getCamType() == CamType.EXHAUST){
    	        		for (int j=peak; j<cam.getValues().length ; j++){
@@ -248,9 +247,8 @@ public class Camshaft {
    	        				break;
    	        			}
    	        		}//end for cam values
-   	        		System.out.println("OVERLAP exhClose=" + exhClose);
        			}
-       			else{
+       			else{ //INTAKE
    	        		for (int j=0; j<peak ; j++){
    	        			//we're on the ascending slope as we're pre-peak
    	        			if( cam.getValue(j)>lift){
@@ -258,15 +256,10 @@ public class Camshaft {
    	        				break;
    	        			}
    	        		}//end for cam values
-   	        		System.out.println("OVERLAP intOpen=" + intOpen);
        			}
         	}//end for cyl number
-
         }//end for cams
 		double overlap = (exhClose-intOpen)*(360.0F/nbSteps) * 2; //because crankshaft does 2 turns for 1 turn of camshaft 
-
-   		System.out.println("OVERLAP="+overlap+"     c=" + cylinder + " exhClose=" + exhClose + " intOpen=" + intOpen );
-
 		return Toolbox.round(overlap,2);
 	}
 	
