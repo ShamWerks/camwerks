@@ -10,6 +10,7 @@ public class Constants {
 	
 	public enum CamType { INTAKE, EXHAUST };
 	public enum CamDirection { CLOCKWISE, COUNTERCLOCKWISE };
+	public enum ValveOpenClose { OPEN, CLOSE };
 	
 	public static final String camFileName    = "Name";
 	public static final String camFileNbSteps = "nbSteps";

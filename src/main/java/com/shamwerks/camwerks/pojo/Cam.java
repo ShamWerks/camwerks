@@ -2,6 +2,7 @@ package com.shamwerks.camwerks.pojo;
 
 import com.shamwerks.camwerks.config.Constants;
 import com.shamwerks.camwerks.config.Constants.CamType;
+import com.shamwerks.camwerks.config.Constants.ValveOpenClose;
 import com.shamwerks.camwerks.config.Lang;
 import com.shamwerks.camwerks.config.LangEntry;
 import com.shamwerks.camwerks.config.Toolbox;
@@ -77,11 +78,40 @@ public class Cam {
 	}
 	
 	public double getMaxLift(){
-		double max = 0;
-		for (int i=0 ; i<values.length ; i++){
-			max=Math.max(max, values[i]);
+		return getValue(getPeakStep());
+	}
+	
+	public int getPeakStep(){
+		int peakStep = 0;
+		double maxValue = 0;
+		    for (int j=0; j<getValues().length ; j++){
+			if(getValue(j) > maxValue){
+				maxValue = getValue(j);
+				peakStep = j;
+			}
 		}
-		return max;
+		return peakStep;
+	}
+	
+	public int getThresholdStep(double lift, ValveOpenClose openClose){
+		//default, we're on the ascending slope as we're pre-peak
+		int start = 0;
+		int end = getPeakStep();
+		if(openClose == ValveOpenClose.CLOSE){ //we're on the descending slope as we're post-peak
+			start = end;
+			end = values.length;
+		}
+		
+		int thresholdStep = 0;
+		
+      	for (int j=start ; j<end ; j++){
+       		if(   ( getValue(j)>lift && openClose == ValveOpenClose.OPEN ) || ( getValue(j)<lift && openClose == ValveOpenClose.CLOSE ) ){
+       			thresholdStep = j; 
+       			break;
+       		}
+       	}//end for cam values
+      	
+      	return thresholdStep;
 	}
 	
 	public double getDuration(double lift){

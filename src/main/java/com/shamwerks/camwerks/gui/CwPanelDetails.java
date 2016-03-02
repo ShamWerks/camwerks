@@ -107,6 +107,9 @@ class CwPanelDetails extends JPanel {
 			String colOverlap1 = "";
 			String colOverlap127 = "";
 			String colOverlap05 = "";
+			String colOpenClose1 = "";
+			String colOpenClose127 = "";
+			String colOpenClose05 = "";
 			String colRocker125 = "";
 			String colRocker14  = "";
 			for(String key : camshaft.getKeys() ){
@@ -119,6 +122,12 @@ class CwPanelDetails extends JPanel {
 				colDuration1   += "<td align='right'>" + cam.getDuration(1) + "°</td>";
 				colDuration127 += "<td align='right'>" + cam.getDuration( 1.27F ) + "°</td>";
 				colDuration05  += "<td align='right'>" + cam.getDuration( 0.5F ) + "°</td>";
+				
+				String intExh = cam.getCamType() == CamType.INTAKE?"A":"E";
+				
+				colOpenClose05  += "<td>AO"+intExh+" / RF"+intExh+"</td>";
+				colOpenClose1   += "<td>AO"+intExh+" / RF"+intExh+"</td>";
+				colOpenClose127 += "<td>AO"+intExh+" / RF"+intExh+"</td>";
 			}
 
 			for(int c=1; c<=camshaft.getNbCylinders(); c++){
@@ -142,7 +151,9 @@ class CwPanelDetails extends JPanel {
 			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OVERLAP_1]", colOverlap1);
 			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OVERLAP_1.27]", colOverlap127);
 
-
+			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OPENCLOSE_0.5]", colOpenClose127);
+			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OPENCLOSE_1]", colOpenClose127);
+			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OPENCLOSE_1.27]", colOpenClose127);
 		}
 
 		return fileContent;

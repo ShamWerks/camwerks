@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import com.shamwerks.camwerks.CamWerks;
 import com.shamwerks.camwerks.config.Constants;
+import com.shamwerks.camwerks.config.Constants.ValveOpenClose;
 import com.shamwerks.camwerks.config.Toolbox;
 import com.shamwerks.camwerks.config.Constants.CamDirection;
 import com.shamwerks.camwerks.config.Constants.CamType;
@@ -228,37 +229,11 @@ public class Camshaft {
         	Cam cam = cams.get(key);
 
         	if(cam.getCylNumber() == cylinder){
-
-        		//first loop to find peak
-        		int peak = 0;
-        		double max = 0;
-       		    for (int j=0; j<cam.getValues().length ; j++){
-        			if(cam.getValue(j) > max){
-        				max =cam.getValue(j);
-        				peak = j;
-        			}
-        		}
-
-        		if(cam.getCamType() == CamType.EXHAUST){
-   	        		for (int j=peak; j<cam.getValues().length ; j++){
-   	        			//we're on the descending slope as we're post-peak
-   	        			if( cam.getValue(j)<lift){
-   	        				exhClose = Math.min(exhClose, j); 
-   	        				break;
-   	        			}
-   	        		}//end for cam values
-       			}
-       			else{ //INTAKE
-   	        		for (int j=0; j<peak ; j++){
-   	        			//we're on the ascending slope as we're pre-peak
-   	        			if( cam.getValue(j)>lift){
-   	        				intOpen = Math.max(intOpen, j); 
-   	        				break;
-   	        			}
-   	        		}//end for cam values
-       			}
+                exhClose =  Math.min(cam.getThresholdStep(lift, ValveOpenClose.CLOSE), exhClose);
+                intOpen  =  Math.max(cam.getThresholdStep(lift, ValveOpenClose.OPEN),  intOpen);
         	}//end for cyl number
         }//end for cams
+        
 		double overlap = (exhClose-intOpen)*(360.0F/nbSteps) * 2; //because crankshaft does 2 turns for 1 turn of camshaft 
 		return Toolbox.round(overlap,2);
 	}
