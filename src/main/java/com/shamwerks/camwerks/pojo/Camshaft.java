@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import com.shamwerks.camwerks.CamWerks;
 import com.shamwerks.camwerks.config.Constants;
+import com.shamwerks.camwerks.config.Toolbox;
 import com.shamwerks.camwerks.config.Constants.CamDirection;
 import com.shamwerks.camwerks.config.Constants.CamType;
 
@@ -219,39 +220,54 @@ public class Camshaft {
 		this.nbCycles = nbCycles;
 	}
 
-	public void getOverlap(double lift){
-		//this.nbSteps = nbValues;
-		//this.nbCylinders = nbCylinders;
-		//this.nbIntakeCamPerCylinder = nbIntakeCamPerCylinder;
-		//this.nbExhaustCamPerCylinder = nbExhaustCamPerCylinder;		
-		
-		for(int c=1 ; c<=nbCylinders ; c++){
-			System.out.println("OVERLAP");
-			System.out.println("OVERLAP cylindre = " + c);
+	public double getOverlap(int cylinder, double lift){
+		int exhClose = nbSteps;
+		int intOpen = 0;
 			
-			double exhClose = 0;
-			double admOpen = 0;
-			
-	        for(String key : cams.keySet()){
-	        	Cam cam = cams.get(key);
+        for(String key : cams.keySet()){
+        	Cam cam = cams.get(key);
 
-	        	if(cam.getCylNumber() == c){
+        	if(cam.getCylNumber() == cylinder){
 
-	        		System.out.println("OVERLAP cylindre = " + c);
+        		//first loop to find peak
+        		int peak = 0;
+        		double max = 0;
+       		    for (int j=0; j<cam.getValues().length ; j++){
+        			if(cam.getValue(j) > max){
+        				max =cam.getValue(j);
+        				peak = j;
+        			}
+        		}
+        		System.out.println("OVERLAP peak =" + peak);
 
-	        		for (int j=0; j<cam.getValues().length ; j++){
-	        			//values += ";" + j + " " + cam.getValue(j);
-	        			if(cam.getCamType() == CamType.EXHAUST){
-	        				
-	        			}
-	        			else{
-	        				
-	        			}
-	        		}//end for cam values
-	        	}//end for cyl number
-	        }//end for cams
-			
-		}
+        		if(cam.getCamType() == CamType.EXHAUST){
+   	        		for (int j=peak; j<cam.getValues().length ; j++){
+   	        			//we're on the descending slope as we're post-peak
+   	        			if( cam.getValue(j)<lift){
+   	        				exhClose = Math.min(exhClose, j); 
+   	        				break;
+   	        			}
+   	        		}//end for cam values
+   	        		System.out.println("OVERLAP exhClose=" + exhClose);
+       			}
+       			else{
+   	        		for (int j=0; j<peak ; j++){
+   	        			//we're on the ascending slope as we're pre-peak
+   	        			if( cam.getValue(j)>lift){
+   	        				intOpen = Math.max(intOpen, j); 
+   	        				break;
+   	        			}
+   	        		}//end for cam values
+   	        		System.out.println("OVERLAP intOpen=" + intOpen);
+       			}
+        	}//end for cyl number
+
+        }//end for cams
+		double overlap = (exhClose-intOpen)*(360.0F/nbSteps) * 2; //because crankshaft does 2 turns for 1 turn of camshaft 
+
+   		System.out.println("OVERLAP="+overlap+"     c=" + cylinder + " exhClose=" + exhClose + " intOpen=" + intOpen );
+
+		return Toolbox.round(overlap,2);
 	}
 	
 	@Override

@@ -95,6 +95,10 @@ class CwPanelDetails extends JPanel {
 		Camshaft camshaft = CamWerks.getInstance().getCamshaft();
 
 		if(camshaft != null){
+			
+			camshaft.getOverlap(1 , 1.27);
+			camshaft.getOverlap(2 , 1.27);
+			
 			fileContent = fileContent.replace("[CAMSHAFT_NAME]", camshaft.getName());
 			//columns
 			String colHeaders = "";
