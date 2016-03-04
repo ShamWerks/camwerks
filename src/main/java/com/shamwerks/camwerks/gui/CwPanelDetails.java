@@ -16,6 +16,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import com.shamwerks.camwerks.CamWerks;
 import com.shamwerks.camwerks.config.Config;
 import com.shamwerks.camwerks.config.Constants.CamType;
+import com.shamwerks.camwerks.config.Constants.ValveOpenClose;
 import com.shamwerks.camwerks.config.Lang;
 import com.shamwerks.camwerks.config.LangEntry;
 import com.shamwerks.camwerks.config.Toolbox;
@@ -125,9 +126,42 @@ class CwPanelDetails extends JPanel {
 				
 				String intExh = cam.getCamType() == CamType.INTAKE?"A":"E";
 				
-				colOpenClose05  += "<td>AO"+intExh+" / RF"+intExh+"</td>";
-				colOpenClose1   += "<td>AO"+intExh+" / RF"+intExh+"</td>";
-				colOpenClose127 += "<td>AO"+intExh+" / RF"+intExh+"</td>";
+//				colOpenClose05  += "<td>AO"+intExh+" ";
+//				colOpenClose05  += Toolbox.round(( cam.getPeakStep() - cam.getThresholdStep(0.5, ValveOpenClose.OPEN)  )*(360.0F/camshaft.getNbSteps()) * 2,2);
+//				colOpenClose05  += "° / RF"+intExh+" ";
+//				colOpenClose05  += Toolbox.round(( cam.getThresholdStep(0.5, ValveOpenClose.CLOSE) - cam.getPeakStep() )*(360.0F/camshaft.getNbSteps()) * 2,2);
+//				colOpenClose05  += "°</td>";
+//				
+//				colOpenClose1  += "<td>AO"+intExh+" ";
+//				colOpenClose1  += Toolbox.round(( cam.getPeakStep() - cam.getThresholdStep(1, ValveOpenClose.OPEN)  )*(360.0F/camshaft.getNbSteps()) * 2,2);
+//				colOpenClose1  += "° / RF"+intExh+" ";
+//				colOpenClose1  += Toolbox.round(( cam.getThresholdStep(1, ValveOpenClose.CLOSE) - cam.getPeakStep() )*(360.0F/camshaft.getNbSteps()) * 2,2);
+//				colOpenClose1  += "°</td>";
+//				
+//				colOpenClose127  += "<td>AO"+intExh+" ";
+//				colOpenClose127  += Toolbox.round(( cam.getPeakStep() - cam.getThresholdStep(1.27, ValveOpenClose.OPEN)  )*(360.0F/camshaft.getNbSteps()) * 2,2);
+//				colOpenClose127  += "° / RF"+intExh+" ";
+//				colOpenClose127  += Toolbox.round(( cam.getThresholdStep(1.27, ValveOpenClose.CLOSE) - cam.getPeakStep() )*(360.0F/camshaft.getNbSteps()) * 2,2);
+//				colOpenClose127  += "°</td>";
+
+				colOpenClose05  += "<td>AO"+intExh+" ";
+				colOpenClose05  += Toolbox.round(( cam.getThresholdStep(0.5, ValveOpenClose.OPEN)  )*(360.0F/camshaft.getNbSteps()) * 2,2);
+				colOpenClose05  += "° / RF"+intExh+" ";
+				colOpenClose05  += Toolbox.round(( cam.getThresholdStep(0.5, ValveOpenClose.CLOSE) )*(360.0F/camshaft.getNbSteps()) * 2,2);
+				colOpenClose05  += "°</td>";
+				
+				colOpenClose1  += "<td>AO"+intExh+" ";
+				colOpenClose1  += Toolbox.round(( cam.getThresholdStep(1, ValveOpenClose.OPEN)  )*(360.0F/camshaft.getNbSteps()) * 2,2);
+				colOpenClose1  += "° / RF"+intExh+" ";
+				colOpenClose1  += Toolbox.round(( cam.getThresholdStep(1, ValveOpenClose.CLOSE) )*(360.0F/camshaft.getNbSteps()) * 2,2);
+				colOpenClose1  += "°</td>";
+				
+				colOpenClose127  += "<td>AO"+intExh+" ";
+				colOpenClose127  += Toolbox.round(( cam.getThresholdStep(1.27, ValveOpenClose.OPEN)  )*(360.0F/camshaft.getNbSteps()) * 2,2);
+				colOpenClose127  += "° / RF"+intExh+" ";
+				colOpenClose127  += Toolbox.round(( cam.getThresholdStep(1.27, ValveOpenClose.CLOSE) )*(360.0F/camshaft.getNbSteps()) * 2,2);
+				colOpenClose127  += "°</td>";
+			
 			}
 
 			for(int c=1; c<=camshaft.getNbCylinders(); c++){
@@ -151,8 +185,8 @@ class CwPanelDetails extends JPanel {
 			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OVERLAP_1]", colOverlap1);
 			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OVERLAP_1.27]", colOverlap127);
 
-			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OPENCLOSE_0.5]", colOpenClose127);
-			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OPENCLOSE_1]", colOpenClose127);
+			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OPENCLOSE_0.5]", colOpenClose05);
+			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OPENCLOSE_1]", colOpenClose1);
 			fileContent = fileContent.replace("[CAMSHAFT_COLUMNS_OPENCLOSE_1.27]", colOpenClose127);
 		}
 
