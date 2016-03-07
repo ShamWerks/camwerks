@@ -222,20 +222,32 @@ public class Camshaft {
 	}
 
 	public double getOverlap(int cylinder, double lift){
-		int exhClose = nbSteps;
-		int intOpen = 0;
+		double exhClose = nbSteps;
+		double intOpen = 0;
 			
         for(String key : cams.keySet()){
         	Cam cam = cams.get(key);
 
         	if(cam.getCylNumber() == cylinder){
-                exhClose =  Math.min(cam.getThresholdStep(lift, ValveOpenClose.CLOSE), exhClose);
-                intOpen  =  Math.max(cam.getThresholdStep(lift, ValveOpenClose.OPEN),  intOpen);
+                exhClose =  Math.min(cam.getThresholdAngle(lift, ValveOpenClose.CLOSE, nbSteps), exhClose);
+                intOpen  =  Math.max(cam.getThresholdAngle(lift, ValveOpenClose.OPEN, nbSteps),  intOpen);
         	}//end for cyl number
         }//end for cams
         
-		double overlap = (exhClose-intOpen)*(360.0F/nbSteps) * 2; //because crankshaft does 2 turns for 1 turn of camshaft 
-		return Toolbox.round(overlap,2);
+		return exhClose-intOpen;
+	}
+	
+	public double getLobeCenter(int cylinder){
+		double exhPeak=0;
+		double intPeak=0;
+			
+        for(String key : cams.keySet()){
+        	Cam cam = cams.get(key);
+        	if(cam.getCamType() == CamType.INTAKE && cam.getCylNumber()==cylinder ) intPeak =  Math.max(Toolbox.stepsToCrankAngle(cam.getPeakStep(), getNbSteps()), intPeak);
+        	if(cam.getCamType() == CamType.EXHAUST && cam.getCylNumber()==cylinder ) exhPeak =  Math.max(Toolbox.stepsToCrankAngle(cam.getPeakStep(), getNbSteps()), exhPeak);
+        }//end for cams
+
+		return (intPeak-exhPeak)/2;
 	}
 	
 	@Override

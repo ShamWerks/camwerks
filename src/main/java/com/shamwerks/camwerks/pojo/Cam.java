@@ -93,7 +93,11 @@ public class Cam {
 		return peakStep;
 	}
 	
-	public int getThresholdStep(double lift, ValveOpenClose openClose){
+	public double getThresholdAngle(double lift, ValveOpenClose openClose, int nbSteps){
+		return Toolbox.stepsToCrankAngle(getThresholdStep(lift, openClose), nbSteps);
+	}
+	
+	private double getThresholdStep(double lift, ValveOpenClose openClose){
 		//default, we're on the ascending slope as we're pre-peak
 		int start = 0;
 		int end = getPeakStep();
@@ -105,25 +109,28 @@ public class Cam {
 		int thresholdStep = 0;
 		
       	for (int j=start ; j<end ; j++){
-       		if(   ( getValue(j)>lift && openClose == ValveOpenClose.OPEN ) || ( getValue(j)<lift && openClose == ValveOpenClose.CLOSE ) ){
+       		if(   ( getValue(j)>=lift && openClose == ValveOpenClose.OPEN ) || ( getValue(j)<=lift && openClose == ValveOpenClose.CLOSE ) ){
        			thresholdStep = j; 
        			break;
        		}
-       	}//end for cam values
+      	}//end for cam values
       	
-      	return thresholdStep;
+      	// Linear Function : Y = aX+b
+      	// a = ( yB - yA) / ( xB - xA)
+      	// b = yA - axA
+      	double a = (getValue(thresholdStep) - (thresholdStep>0?getValue(thresholdStep-1):0)); //denominator=1
+      	double b = getValue(thresholdStep) - (a * thresholdStep);
+      	double x= (lift-b) / a;
+      	return x;
 	}
 	
 	public double getDuration(double lift){
-		int startIdx = -1, endIdx = -1;
-		for (int i=0 ; i<values.length ; i++){
-			if(startIdx == -1 && values[i] > lift) startIdx = i;
-			if(values[i] > lift) endIdx = i;
-		}
-		double duration = (endIdx-startIdx)*(360.0F/values.length) * 2; //because crankshaft does 2 turns for 1 turn of camshaft 
-		return Toolbox.round(duration,2);
+		double startIdx = getThresholdAngle(lift, ValveOpenClose.OPEN, values.length);
+		double endIdx = getThresholdAngle(lift, ValveOpenClose.CLOSE, values.length);
+		return endIdx-startIdx;
 	}
 
+	
 	
 	public int getCylNumber() {
 		return cylNumber;
