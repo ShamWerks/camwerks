@@ -29,17 +29,17 @@ body {
         </tr>
 
         <tr>
-            <th>Levée came :</th>
+            <th align='right'>Levée came :</th>
             [CAMSHAFT_COLUMNS_LIFTS]
         </tr>
 
         <tr>
-            <th>Culbuteur 1.25</th>
+            <th align='right'>Culbuteur 1.25</th>
             [CAMSHAFT_COLUMNS_ROCKER_1.25]
         </tr>
 
         <tr>
-            <th>Culbuteur 1.4</th>
+            <th align='right'>Culbuteur 1.4</th>
             [CAMSHAFT_COLUMNS_ROCKER_1.4]
         </tr>
 
@@ -51,48 +51,47 @@ body {
             <td></td>
             [CAMSHAFT_COLUMNS_HEADERS]
         </tr>
-
-        <tr>
-          <th>[TEMPLATE_COLUM_HEADER_DURATION] @0.5mm :</th>
-            [CAMSHAFT_COLUMNS_DURATION_0.5]
-        </tr>
-        <tr>
-          <th>[TEMPLATE_COLUM_HEADER_DURATION] @1mm :</th>
-            [CAMSHAFT_COLUMNS_DURATION_1]
-        </tr>
-        <tr>
-          <th>[TEMPLATE_COLUM_HEADER_DURATION] @1.27mm :</th>
-            [CAMSHAFT_COLUMNS_DURATION_1.27]
-        </tr>
+        [CAMSHAFT_COLUMNS_DURATION]
     </table>
 
+
+
     <h3 class="h2bg">[TEMPLATE_HEADER_OVERLAP]</h3>
+    <table>
+        <tr>
+            <td></td>
+            [CYLINDERS_COLUMNS_HEADERS]
+        </tr>
+        [CAMSHAFT_COLUMNS_OVERLAP]
+        [CAMSHAFT_COLUMNS_LOBECENTER]
+    </table>
+
+
+<!-- 
+    <h3 class="h2bg">[TEMPLATE_HEADER_OPENCLOSE]</h3>
     <table>
         <tr>
             <td></td>
             [CAMSHAFT_COLUMNS_HEADERS]
         </tr>
 
+
         <tr>
-          <th>Duree @0.5mm :</th>
-            [CAMSHAFT_COLUMNS_DURATION_0.5]
+          <th align='right'>@1mm :</th>
+            [CAMSHAFT_COLUMNS_OPENCLOSE_1]
         </tr>
         <tr>
-          <th>Duree @1mm :</th>
-            [CAMSHAFT_COLUMNS_DURATION_1]
-        </tr>
-        <tr>
-          <th>Duree @1.27mm :</th>
-            [CAMSHAFT_COLUMNS_DURATION_1.27]
+          <th align='right'>@1.27mm :</th>
+            [CAMSHAFT_COLUMNS_OPENCLOSE_1.27]
         </tr>
     </table>
-
+ -->
 
 
 
 
     <p><i>CamWerks [CAMWERKS_VERSION]</i></p>
-	<p>	<img src="[FILE_PATH]shamwerks.jpg"> ShamWerks.com &copy; 2015</p>
+	<p>	<img src="[FILE_PATH]shamwerks.jpg"> ShamWerks.com &copy; 2016</p>
 
 </body>
 </html>

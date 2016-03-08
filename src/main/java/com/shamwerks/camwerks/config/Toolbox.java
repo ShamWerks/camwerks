@@ -10,4 +10,8 @@ public class Toolbox {
 		return bd.doubleValue();
 	}
 
+	
+	public static double stepsToCrankAngle(double inStep, int nbSteps){
+		return Toolbox.round( inStep*(360.0F/nbSteps) * 2   ,2); //x2 because crankshaft does 2 turns for 1 turn of camshaft
+	}
 }

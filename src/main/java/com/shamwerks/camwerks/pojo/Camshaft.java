@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 
 import com.shamwerks.camwerks.CamWerks;
 import com.shamwerks.camwerks.config.Constants;
+import com.shamwerks.camwerks.config.Constants.ValveOpenClose;
+import com.shamwerks.camwerks.config.Toolbox;
 import com.shamwerks.camwerks.config.Constants.CamDirection;
 import com.shamwerks.camwerks.config.Constants.CamType;
 
@@ -219,6 +221,35 @@ public class Camshaft {
 		this.nbCycles = nbCycles;
 	}
 
+	public double getOverlap(int cylinder, double lift){
+		double exhClose = nbSteps;
+		double intOpen = 0;
+			
+        for(String key : cams.keySet()){
+        	Cam cam = cams.get(key);
+
+        	if(cam.getCylNumber() == cylinder){
+                exhClose =  Math.min(cam.getThresholdAngle(lift, ValveOpenClose.CLOSE, nbSteps), exhClose);
+                intOpen  =  Math.max(cam.getThresholdAngle(lift, ValveOpenClose.OPEN, nbSteps),  intOpen);
+        	}//end for cyl number
+        }//end for cams
+        
+		return exhClose-intOpen;
+	}
+	
+	public double getLobeCenter(int cylinder){
+		double exhPeak=0;
+		double intPeak=0;
+			
+        for(String key : cams.keySet()){
+        	Cam cam = cams.get(key);
+        	if(cam.getCamType() == CamType.INTAKE && cam.getCylNumber()==cylinder ) intPeak =  Math.max(Toolbox.stepsToCrankAngle(cam.getPeakStep(), getNbSteps()), intPeak);
+        	if(cam.getCamType() == CamType.EXHAUST && cam.getCylNumber()==cylinder ) exhPeak =  Math.max(Toolbox.stepsToCrankAngle(cam.getPeakStep(), getNbSteps()), exhPeak);
+        }//end for cams
+
+		return (intPeak-exhPeak)/2;
+	}
+	
 	@Override
 	public String toString(){
 		String out = "Name=" + name + "\n";
