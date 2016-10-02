@@ -75,7 +75,7 @@ class CwPanelDetails extends JPanel {
 	public String parseHtmlTags(String fileContent){
 		NumberFormat df = new DecimalFormat("#0.00");     
 		
-		double[] thresholds = {0.508, 1, 1.27}; //TODO: Put in config file!
+		double[] thresholds = {0.5, 1, 1.27}; //TODO: Put in config file!
 		
 		final String dirTemplates = "file:" + File.separator + System.getProperty("user.dir") + File.separator + "config" + File.separator + "templates" + File.separator;
 
