@@ -46,7 +46,7 @@ public class CwPanelCamRadialChart extends JPanel{
 
 	public CwPanelCamRadialChart() {
 		super();
-System.out.println("SHAM 1.0");
+System.out.println("---> SHAM 1.0");
         chart = createChart( (XYDataset)series );
         chart.setBackgroundPaint(Color.white); 
 
@@ -74,6 +74,7 @@ System.out.println("SHAM 1.0");
 		series.removeAllSeries();
 		
 	    //   Rendering serie ( handeling null values )
+	    /*
 	    DefaultPolarItemRenderer ren = new DefaultPolarItemRenderer () {
 			private static final long serialVersionUID = 1L;
 
@@ -113,10 +114,11 @@ System.out.println("SHAM 1.0");
 	            g2.draw (polyline);
 	        }
 	    };
+	    */
 
 		
 		PolarPlot polarPlot = (PolarPlot) chart.getPlot();
-		polarPlot.setRenderer(ren);
+//		polarPlot.setRenderer(ren);
         //PolarItemRenderer renderer = xyPlot.getRenderer();
         polarPlot.setBackgroundPaint (Color.white);
         polarPlot.setAngleGridlinePaint (Color.lightGray);
@@ -136,16 +138,52 @@ System.out.println("SHAM 1.0");
 
 		
 			
-			XYSeries  xys = new XYSeries(legend + " NEW ALGO");
-			System.out.println("====================================================================");
 			
+/*
+**** ALGO JB : ****
 
+base = 12;
+
+N = size(raw, 1);
+dth = .6;
+th = dth * raw(:, 1)' / 180 * pi;
+l = raw(:, 2)' + base;
+dl = diff(l) ./ diff(th);
+dl = [ dl ( l(1)-l(end) )/( th(1)+360-th(end) ) ];
+
+cth = cos(th);
+sth = sin(th);
+x = l.*cth - dl.*sth;
+y = l.*sth + dl.*cth;
+
+*/
+			XYSeries  xys = new XYSeries(legend );
 			for (int j = 0; j < camshaft.getNbSteps() ; j=j+1) { //camshaft.getNbSteps()
 
-				double R = cam.getValue(j)+baseCircle;
+				double l = cam.getValue(j)+baseCircle;
 
-				double degA = j * (360.0F / camshaft.getNbSteps()) ; 
-				xys.add( degA, R );
+				int prev_j = j-1;
+				if (prev_j==-1) prev_j=camshaft.getNbSteps()-1;
+//System.out.println("J="+j + "  prevJ=" + prev_j);
+
+				double th = j * (360.0F / camshaft.getNbSteps()) ; 
+				double prev_th = prev_j * (360.0F / camshaft.getNbSteps()) ; 
+				//double radA = Math.toRadians(degA);
+
+
+				double dl =  (cam.getValue(j) - cam.getValue(prev_j)) / (th - prev_th);
+				double cth = Math.cos(Math.toRadians(th));
+				double sth = Math.sin(Math.toRadians(th));
+                
+				double x = l * cth - dl * sth;
+				double y = l * sth + dl * cth;
+
+// now, let's convert this shit to polar diagram...
+   				double distance = Math.sqrt(x*x + y*y);
+				double angle = Math.toDegrees( Math.atan2(y,x) );
+
+				//xys.add( th, l );
+				xys.add( angle, distance );
 			}
 
 		    series.addSeries(xys);
