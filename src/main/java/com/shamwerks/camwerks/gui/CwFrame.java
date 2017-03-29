@@ -176,7 +176,7 @@ public class CwFrame extends JFrame {
 		
 		cwPanelDetails.updateCamshaftDetails();
 		panelLineChart.updateDatasetFromCamshaft();
-		//panelCamRadialChart.updateDatasetFromCamshaft();
+		panelCamRadialChart.updateDatasetFromCamshaft();
 		//panelCamTemp.updateDatasetFromCamshaft();
 	}
 
