@@ -137,6 +137,19 @@ System.out.println("---> SHAM 1.0");
 			}
 
 		
+			//sliding window average algorithm :
+			double[] filtered = new double[camshaft.getNbSteps()];
+			for (int j = 0; j < camshaft.getNbSteps() ; j++){ 
+
+				int prev_j = j-1;
+				if (prev_j<0) prev_j=camshaft.getNbSteps()-1;
+
+				int next_j = j+1;
+				if (next_j==camshaft.getNbSteps()) next_j=0;
+
+				filtered[j] = (cam.getValue(j) + cam.getValue(prev_j) + cam.getValue(next_j) ) / 3.0d;
+System.out.println("filtered=" + filtered[j] + "   j="+j+"  cam="+cam.getValue(j) + " prev="+cam.getValue(prev_j) + "  next="+cam.getValue(next_j) ) ;
+			}
 			
 			
 /*
@@ -159,19 +172,21 @@ y = l.*sth + dl.*cth;
 */
 			double dth = (360.0d / camshaft.getNbSteps());
 			XYSeries  xys = new XYSeries(legend );
-			for (int j = 0; j < camshaft.getNbSteps() ; j=j+1) { //camshaft.getNbSteps()
+			for (int j = 0; j < camshaft.getNbSteps() ; j++) { 
 
-				double l = cam.getValue(j)+baseCircle;
+				//double l = cam.getValue(j)+baseCircle;
+				double l = filtered[j]+baseCircle;
 
 				int prev_j = j-1;
-				if (prev_j==-1) prev_j=camshaft.getNbSteps()-1;
+				if (prev_j<0) prev_j=camshaft.getNbSteps()-1;
 
 				double th = Math.toRadians(j * dth) ; 
 				double prev_th = Math.toRadians(prev_j * dth) ; 
 				//double radA = Math.toRadians(degA);
 
 
-				double dl =  (cam.getValue(j) - cam.getValue(prev_j)) / (th - prev_th);
+				//double dl =  (cam.getValue(j) - cam.getValue(prev_j)) / (th - prev_th);
+				double dl =  (filtered[j] - filtered[prev_j]) / (th - prev_th);
 				double cth = Math.cos(th);
 				double sth = Math.sin(th);
                 
