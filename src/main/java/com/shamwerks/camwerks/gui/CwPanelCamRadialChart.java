@@ -125,51 +125,46 @@ System.out.println("---> SHAM 1.0");
         polarPlot.setRadiusGridlinePaint(Color.lightGray);
         //polarPlot.
        
-        //int i=0; 
+int i=0; 
 		for (String key : camshaft.getKeys() ) {
 			Cam cam = camshaft.getCam(key);
 			cam.normalizeValues();
-//	        renderer.setSeriesPaint(i, Color.blue);
+			renderer.setSeriesPaint(i, Color.blue);
 	        String legend = Lang.getText(LangEntry.CHART_LEGEND_CYL) +" " + cam.getCylNumber() + "/"+ Lang.getText(LangEntry.CHART_LEGEND_INT) + " " + cam.getCamNumber(); //(i+1)
 			if(camshaft.getCam(key).isExhaust()){
-//		        renderer.setSeriesPaint(i, Color.red);
+		        renderer.setSeriesPaint(i, Color.red);
 		        legend = Lang.getText(LangEntry.CHART_LEGEND_CYL) +" " + cam.getCylNumber() + "/" + Lang.getText(LangEntry.CHART_LEGEND_EXH) + " " + cam.getCamNumber(); //(i+1)
 			}
+			i++;
 
 		
 			//sliding window average algorithm :
 			double[] filtered = new double[camshaft.getNbSteps()];
+			int slidingWindowSize = 9; //must be an odd/uneven number : 1 3 5 7 9... 1 means no average, just raw data
 			for (int j = 0; j < camshaft.getNbSteps() ; j++){ 
 
-				int prev_j = j-1;
-				if (prev_j<0) prev_j=camshaft.getNbSteps()-1;
-
-				int next_j = j+1;
-				if (next_j==camshaft.getNbSteps()) next_j=0;
-
-				filtered[j] = (cam.getValue(j) + cam.getValue(prev_j) + cam.getValue(next_j) ) / 3.0d;
-System.out.println("filtered=" + filtered[j] + "   j="+j+"  cam="+cam.getValue(j) + " prev="+cam.getValue(prev_j) + "  next="+cam.getValue(next_j) ) ;
+				double total = 0;
+				for (int k=0 ; k<slidingWindowSize; k++){
+					total += cam.getValueCycle( j - ((slidingWindowSize-1)/2) + k);
+				}
+				filtered[j] = total / slidingWindowSize;
 			}
 			
-			
-/*
-**** ALGO JB : ****
+			/*
+			**** MatLab Algorith : enveloppe of a family of lines ****
+			base = 12;
+			N = size(raw, 1);
+			dth = .6;
+			th = dth * raw(:, 1)' / 180 * pi;
+			l = raw(:, 2)' + base;
+			dl = diff(l) ./ diff(th);
+			dl = [ dl ( l(1)-l(end) )/( th(1)+360-th(end) ) ];
+			cth = cos(th);
+			sth = sin(th);
+			x = l.*cth - dl.*sth;
+			y = l.*sth + dl.*cth;
+			*/
 
-base = 12;
-
-N = size(raw, 1);
-dth = .6;
-th = dth * raw(:, 1)' / 180 * pi;
-l = raw(:, 2)' + base;
-dl = diff(l) ./ diff(th);
-dl = [ dl ( l(1)-l(end) )/( th(1)+360-th(end) ) ];
-
-cth = cos(th);
-sth = sin(th);
-x = l.*cth - dl.*sth;
-y = l.*sth + dl.*cth;
-
-*/
 			double dth = (360.0d / camshaft.getNbSteps());
 			XYSeries  xys = new XYSeries(legend );
 			for (int j = 0; j < camshaft.getNbSteps() ; j++) { 
@@ -182,7 +177,6 @@ y = l.*sth + dl.*cth;
 
 				double th = Math.toRadians(j * dth) ; 
 				double prev_th = Math.toRadians(prev_j * dth) ; 
-				//double radA = Math.toRadians(degA);
 
 
 				//double dl =  (cam.getValue(j) - cam.getValue(prev_j)) / (th - prev_th);
@@ -194,13 +188,12 @@ y = l.*sth + dl.*cth;
 				double x = l * cth - dl * sth;
 				double y = l * sth + dl * cth;
 
-				// now, let's convert this shit to polar diagram...
+				// now, let's convert this cartesian shit into a nice polar diagram...
    				double distance = Math.sqrt(x*x + y*y);
 				double angle = Math.toDegrees( Math.atan2(y,x) );
 
 				xys.add( angle, distance );
 			}
-
 		    series.addSeries(xys);
 		}
 		
