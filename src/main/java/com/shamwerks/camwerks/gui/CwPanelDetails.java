@@ -175,7 +175,7 @@ class CwPanelDetails extends JPanel {
 				}
 				for(String key : camshaft.getKeys() ){
 					Cam cam = camshaft.getCam(key);
-					colDuration   += "<td align='right'>" + df.format(cam.getDuration(thresholds[i])) + "°</td>";
+					colDuration   += "<td align='right'>" + df.format(cam.getDuration(thresholds[i])) + "&deg;</td>";
 				}
 				colOverlap   += "</tr>";
 				colDuration   += "</tr>";
@@ -185,7 +185,7 @@ class CwPanelDetails extends JPanel {
 			colLobeCenter += "<tr>";
 			colLobeCenter += "<th>" + Lang.getText( LangEntry.TEMPLATE_COLUM_HEADER_LOBECENTER) + "</th>";
 			for(int c=1; c<=camshaft.getNbCylinders(); c++){
-				colLobeCenter+= "<td align='right'>" + df.format(camshaft.getLobeCenter(c)) + "°</td>";
+				colLobeCenter+= "<td align='right'>" + df.format(camshaft.getLobeCenter(c)) + "&deg;</td>";
 			}
 			colLobeCenter += "</tr>";
 

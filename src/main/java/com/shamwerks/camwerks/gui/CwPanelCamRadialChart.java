@@ -7,8 +7,6 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -27,8 +25,6 @@ import com.shamwerks.camwerks.config.Lang;
 import com.shamwerks.camwerks.config.LangEntry;
 import com.shamwerks.camwerks.pojo.Cam;
 import com.shamwerks.camwerks.pojo.Camshaft;
-import com.shamwerks.camwerks.pojo.Coord;
-import com.shamwerks.camwerks.pojo.LinearFunction;
 
 public class CwPanelCamRadialChart extends JPanel{
 
@@ -46,7 +42,7 @@ public class CwPanelCamRadialChart extends JPanel{
 
 	public CwPanelCamRadialChart() {
 		super();
-System.out.println("---> SHAM 1.0");
+
         chart = createChart( (XYDataset)series );
         chart.setBackgroundPaint(Color.white); 
 
@@ -125,17 +121,17 @@ System.out.println("---> SHAM 1.0");
         polarPlot.setRadiusGridlinePaint(Color.lightGray);
         //polarPlot.
        
-int i=0; 
+        int seriesID=0; 
 		for (String key : camshaft.getKeys() ) {
 			Cam cam = camshaft.getCam(key);
 			cam.normalizeValues();
-			renderer.setSeriesPaint(i, Color.blue);
+			renderer.setSeriesPaint(seriesID, Color.blue);
 	        String legend = Lang.getText(LangEntry.CHART_LEGEND_CYL) +" " + cam.getCylNumber() + "/"+ Lang.getText(LangEntry.CHART_LEGEND_INT) + " " + cam.getCamNumber(); //(i+1)
 			if(camshaft.getCam(key).isExhaust()){
-		        renderer.setSeriesPaint(i, Color.red);
+		        renderer.setSeriesPaint(seriesID, Color.red);
 		        legend = Lang.getText(LangEntry.CHART_LEGEND_CYL) +" " + cam.getCylNumber() + "/" + Lang.getText(LangEntry.CHART_LEGEND_EXH) + " " + cam.getCamNumber(); //(i+1)
 			}
-			i++;
+			seriesID++;
 
 		
 			//sliding window average algorithm :

@@ -9,7 +9,7 @@
   java -cp target/camwerks-0.1-jar-with-dependencies.jar  org.jfree.chart.demo.RingChartDemo1
  */
 
-package org.jfree.chart.demo;
+package com.shamwerks.camwerks.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
