@@ -131,6 +131,16 @@ public class CwPanelLineChart extends JPanel implements ChartMouseListener {
 		series.removeAllSeries();
 		updateDatasetFromCamshaft( CamWerks.getInstance().getCamshaft() , false );
 		updateDatasetFromCamshaft( CamWerks.getInstance().getCamshaftCompareTo() , true);
+
+		String chartTitle = CamWerks.getInstance().getCamshaft().getName();
+		
+		if(CamWerks.getInstance().getCamshaftCompareTo() != null){
+		  updateDatasetFromCamshaft( CamWerks.getInstance().getCamshaftCompareTo() , true);
+		  chartTitle += " vs. " +  CamWerks.getInstance().getCamshaftCompareTo().getName();
+		}
+		
+		chart.setTitle(chartTitle);
+		chart.fireChartChanged();
 	}
 	
 	
@@ -144,33 +154,37 @@ public class CwPanelLineChart extends JPanel implements ChartMouseListener {
         xyPlot.setDomainGridlinePaint(Color.lightGray);
         xyPlot.setRangeGridlinePaint(Color.lightGray);
         
-        int i=0;
-        if(isCompare) i=camshaft.getNbDisplayedCams();
+        int seriesID=0;
+        if(isCompare) seriesID=camshaft.getNbDisplayedCams();
 		for (String key : camshaft.getKeys() ) {
 			Cam cam = camshaft.getCam(key);
 			if(cam.isDisplay()) {
-	        renderer.setSeriesPaint(i, Color.blue);
-	        String legend = Lang.getText(LangEntry.CHART_LEGEND_CYL) +" " + cam.getCylNumber() + "/"+ Lang.getText(LangEntry.CHART_LEGEND_INT) + " " + cam.getCamNumber(); //(i+1)
-			if(camshaft.getCam(key).isExhaust()){
-		        renderer.setSeriesPaint(i, Color.red);
-		        legend = Lang.getText(LangEntry.CHART_LEGEND_CYL) +" " + cam.getCylNumber() + "/" + Lang.getText(LangEntry.CHART_LEGEND_EXH) + " " + cam.getCamNumber(); //(i+1)
-			}
+				renderer.setSeriesPaint(seriesID, Color.blue);
+				String legend = Lang.getText(LangEntry.CHART_LEGEND_CYL) +" " + cam.getCylNumber() + "/"+ Lang.getText(LangEntry.CHART_LEGEND_INT) + " " + cam.getCamNumber(); //(i+1)
+				if(camshaft.getCam(key).isExhaust()){
+					renderer.setSeriesPaint(seriesID, Color.red);
+					legend = Lang.getText(LangEntry.CHART_LEGEND_CYL) +" " + cam.getCylNumber() + "/" + Lang.getText(LangEntry.CHART_LEGEND_EXH) + " " + cam.getCamNumber(); //(i+1)
+				}
+				if(isCompare){
+					if(camshaft.getCam(key).isExhaust()){
+						renderer.setSeriesPaint(seriesID, Color.orange);
+					}
+					else{
+						renderer.setSeriesPaint(seriesID, Color.green);
+					}
+				}
 			
-			XYSeries localXYSeries = new XYSeries(legend + ((isCompare)?"_Compare":""));
+				XYSeries localXYSeries = new XYSeries(legend + ((isCompare)?"_Compare"+seriesID:""));
 			
-			for (int j = 0; j < camshaft.getNbSteps() ; j++) {
-				double x = j * (360.0F / camshaft.getNbSteps()) * 2;
-				localXYSeries.add(x, cam.getValue(j));
-			}
-			series.addSeries(localXYSeries);
+				for (int j = 0; j < camshaft.getNbSteps() ; j++) {
+					double x = j * (360.0d / camshaft.getNbSteps()) * 2;
+					localXYSeries.add(x, cam.getValue(j));
+				}
+				series.addSeries(localXYSeries);
 			
-			i++;
+				seriesID++;
 			}
 		}
-
-		chart.setTitle(camshaft.getName());
-		
-		chart.fireChartChanged();
 	}
 	
 	public void chartMouseClicked(ChartMouseEvent paramChartMouseEvent) {}

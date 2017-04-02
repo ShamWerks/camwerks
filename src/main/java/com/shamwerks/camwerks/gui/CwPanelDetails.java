@@ -171,7 +171,7 @@ class CwPanelDetails extends JPanel {
 				for(int c=1; c<=camshaft.getNbCylinders(); c++){
 					colOverlap   += "<td align='right'>" ;
 					colOverlap   += df.format(camshaft.getOverlap(c, thresholds[i]));
-					colOverlap   += "°</td>";
+					colOverlap   += "&deg;</td>";
 				}
 				for(String key : camshaft.getKeys() ){
 					Cam cam = camshaft.getCam(key);
