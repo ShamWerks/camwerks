@@ -19,19 +19,6 @@ public class Lang {
 	public Lang(){
 		Locale currentLocale = Locale.FRENCH;
 		
-		
-		/*
-		ResourceBundle labels = ResourceBundle.getBundle("config/Language", currentLocale);
-		Enumeration<String> bundleKeys = labels.getKeys();
-		
-		while (bundleKeys.hasMoreElements()) {
-		    String key = (String)bundleKeys.nextElement();
-		    String value = labels.getString(key);
-		    //System.out.println("key = " + key + ", " + "value = " + value);
-		    langMap.put(key, value);
-		}
-		*/
-		
 		Properties props = new Properties();
 		try {
 		    props.load( new FileInputStream( "config/Language_" + currentLocale + ".properties") );
@@ -39,9 +26,7 @@ public class Lang {
 			e.printStackTrace();
 		}
 		for (Object key : props.keySet() ) {
-		    //String key = (String)bundleKeys.nextElement();
 		    String value = props.getProperty(key.toString());
-		    //System.out.println("key = " + key + ", " + "value = " + value);
 		    langMap.put(key.toString(), value);
 		}
 

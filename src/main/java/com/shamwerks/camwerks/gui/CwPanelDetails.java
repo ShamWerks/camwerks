@@ -47,7 +47,6 @@ class CwPanelDetails extends JPanel {
 		} 
 		fileContent = parseHtmlTags(fileContent);
 
-		//System.out.println(fileContent);
 		detailsEditPane.setText( fileContent );
 		add(detailsEditPane);
 
@@ -66,7 +65,6 @@ class CwPanelDetails extends JPanel {
 
 		fileContent = parseHtmlTags(fileContent);
 
-		//System.out.println("fileContent = " + fileContent);
 		detailsEditPane.setText(fileContent);
 	}
 

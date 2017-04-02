@@ -59,7 +59,6 @@ public class CamWerks {
 
 	public static void main(String[] args) throws IOException {
 		instance.config = new Config();
-		System.out.println(instance.config.getNbSteps());
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -77,8 +76,6 @@ public class CamWerks {
 
 	
 	public void runMeasureSequence(){
-		System.out.println("Looping through Cylinders cams");
-		
 		boolean connected = arduino.initialize();
 		
 		if(connected) {

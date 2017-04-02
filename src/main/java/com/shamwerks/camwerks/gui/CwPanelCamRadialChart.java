@@ -65,7 +65,6 @@ public class CwPanelCamRadialChart extends JPanel{
                     }
                 }
             }
-System.out.println( "seriesIndex=" + seriesIndex + " / paint=" + lookupSeriesPaint (seriesIndex) );
             g2.setPaint (lookupSeriesPaint (seriesIndex));
             g2.setStroke (lookupSeriesStroke (seriesIndex));
             g2.draw (polyline);
@@ -144,7 +143,6 @@ System.out.println( "seriesIndex=" + seriesIndex + " / paint=" + lookupSeriesPai
 				}
 				seriesID++;
 
-		
 				//sliding window average algorithm :
 				double[] filtered = new double[camshaft.getNbSteps()];
 				int slidingWindowSize = 9; //must be an odd/uneven number : 1 3 5 7 9... 1 means no average, just raw data
@@ -157,21 +155,6 @@ System.out.println( "seriesIndex=" + seriesIndex + " / paint=" + lookupSeriesPai
 					filtered[j] = total / slidingWindowSize;
 				}
 			
-				/*
-				 **** MatLab Algorith : enveloppe of a family of lines ****
-				base = 12;
-				N = size(raw, 1);
-				dth = .6;
-				th = dth * raw(:, 1)' / 180 * pi;
-				l = raw(:, 2)' + base;
-				dl = diff(l) ./ diff(th);
-				dl = [ dl ( l(1)-l(end) )/( th(1)+360-th(end) ) ];
-				cth = cos(th);
-				sth = sin(th);
-				x = l.*cth - dl.*sth;
-				y = l.*sth + dl.*cth;
-				 */
-
 				double dth = (360.0d / camshaft.getNbSteps());
 				XYSeries  xys = new XYSeries(legend + ((isCompare)?"_Compare":""));
 				for (int j = 0; j < camshaft.getNbSteps() ; j++) { 

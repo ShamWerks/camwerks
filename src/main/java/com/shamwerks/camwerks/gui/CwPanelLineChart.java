@@ -130,8 +130,6 @@ public class CwPanelLineChart extends JPanel implements ChartMouseListener {
 	public void updateDatasetFromCamshaft(){
 		series.removeAllSeries();
 		updateDatasetFromCamshaft( CamWerks.getInstance().getCamshaft() , false );
-		updateDatasetFromCamshaft( CamWerks.getInstance().getCamshaftCompareTo() , true);
-
 		String chartTitle = CamWerks.getInstance().getCamshaft().getName();
 		
 		if(CamWerks.getInstance().getCamshaftCompareTo() != null){
@@ -145,7 +143,6 @@ public class CwPanelLineChart extends JPanel implements ChartMouseListener {
 	
 	
 	private void updateDatasetFromCamshaft(Camshaft camshaft, boolean isCompare){
-		System.out.println(camshaft);
 		if(camshaft == null) return;
 
 		XYPlot xyPlot = (XYPlot) chart.getPlot();
@@ -173,8 +170,9 @@ public class CwPanelLineChart extends JPanel implements ChartMouseListener {
 						renderer.setSeriesPaint(seriesID, Color.green);
 					}
 				}
+				seriesID++;
 			
-				XYSeries localXYSeries = new XYSeries(legend + ((isCompare)?"_Compare"+seriesID:""));
+				XYSeries localXYSeries = new XYSeries(legend + ((isCompare)?"_Compare":""));
 			
 				for (int j = 0; j < camshaft.getNbSteps() ; j++) {
 					double x = j * (360.0d / camshaft.getNbSteps()) * 2;
@@ -182,7 +180,6 @@ public class CwPanelLineChart extends JPanel implements ChartMouseListener {
 				}
 				series.addSeries(localXYSeries);
 			
-				seriesID++;
 			}
 		}
 	}
