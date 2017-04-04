@@ -84,8 +84,6 @@ public class Camshaft {
 				camshaft.addCam( cam );
 			}
 		}
-		
-		System.out.println("================\n" + camshaft + "\n================");
 		return camshaft;
 	}
 	
@@ -113,7 +111,6 @@ public class Camshaft {
 		    }
 			content.append( "\r\n");
 		}
-		System.out.println(content);
 		//TODO !!!!
 	}
 	

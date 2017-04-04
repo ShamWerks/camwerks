@@ -31,16 +31,7 @@ public class CwCamMeasure extends JDialog implements ActionListener{ //, Observe
 	private double normalizeOffset = 0.0;
 	
 	public CwCamMeasure() {
-
 		Camshaft camshaft = CamWerks.getInstance().getCamshaft();
-/*
-		System.out.println("-------------------------");
-		System.out.println("Camshaft size=" + camshaft.getNbCams());
-		for(int i=0 ; i<camshaft.getNbCams() ; i++){
-			System.out.println("cam = " + camshaft.getCam(i).getDescription());
-		}
-		System.out.println("-------------------------");
-*/
 		
 		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -96,7 +87,6 @@ public class CwCamMeasure extends JDialog implements ActionListener{ //, Observe
 		Camshaft camshaft = CamWerks.getInstance().getCamshaft();
 		//disable button
 		
-//		Cam cam = camshaft.getCam( measureSequence.get(measureSequenceIdx) );
 		Cam cam = camshaft.getCam( measureSequenceIdx );
 		
 		btnStartButton.setEnabled(false);
@@ -114,8 +104,6 @@ public class CwCamMeasure extends JDialog implements ActionListener{ //, Observe
 
 					cam.setValue(i, measure - normalizeOffset);
 					CamWerks.getInstance().getFrame().updateCamshaftDisplay();//.getPanelLineChart().updateDatasetFromCamshaft();
-
-					//System.out.println("step " + i + " -> " + measure);
 
 					lblStep.setText( "Step : "   + (i+1) + " / " + camshaft.getNbSteps() );
 					lblCycle.setText( "Cycle : " + (c+1) + " / " + camshaft.getNbCycles() );

@@ -30,6 +30,13 @@ public class Cam {
 		return values[idx];
 	}
 
+	public double getValueCycle(int idx) {
+		while (idx >= values.length) idx = idx - values.length;
+		while (idx < 0) idx = idx + values.length;
+
+		return values[idx];
+	}
+
 	public void setValue(int idx, double value) {
 		values[idx] = value;
 	}

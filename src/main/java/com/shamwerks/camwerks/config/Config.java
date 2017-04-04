@@ -16,17 +16,13 @@ public class Config {
     private String comPorts[];
     
     public Config(){
-    	 System.out.println("Working Directory = " + System.getProperty("user.dir"));
 		//loading the config.properties file
 		Properties props = new Properties();
 		try {
-			//System.out.println("stream=" + this.getClass().getResourceAsStream(CONFIG_FILE));
-			//props.load(  this.getClass().getResourceAsStream(CONFIG_FILE ) ); 
 		    props.load( new FileInputStream( CONFIG_FILE ) );
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("config="+props);
 		language = props.getProperty("language");
 		nbSteps = Integer.parseInt(props.getProperty("nbSteps"));
 		nbStepsIncrement = Integer.parseInt(props.getProperty("nbStepsIncrement"));

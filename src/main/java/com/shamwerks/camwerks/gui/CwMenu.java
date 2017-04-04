@@ -169,9 +169,7 @@ public class CwMenu extends JMenuBar implements ActionListener, ItemListener {
 		try {
 			CwNewCamshaft dialog = new CwNewCamshaft();
 			dialog.setLocationRelativeTo( CamWerks.getInstance().getFrame() );
-			System.out.println("aaa");
 			dialog.setVisible(true); //Blocking!!
-			System.out.println("bbb");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -203,6 +201,7 @@ public class CwMenu extends JMenuBar implements ActionListener, ItemListener {
 	}
 	
 	private void actionCloseFile(){
+		//TODO
 		System.out.println("TO DO!");
 	}
 
@@ -212,7 +211,6 @@ public class CwMenu extends JMenuBar implements ActionListener, ItemListener {
 		fd.setVisible(true);
 		String filename = fd.getFile();
 		if (filename != null){
-			System.out.println("ssss" + filename + " --- " + fd.getDirectory());
 			CamWerks.getInstance().getCamshaft().saveAsCSV(fd.getDirectory() + filename);
 		}
 	}
