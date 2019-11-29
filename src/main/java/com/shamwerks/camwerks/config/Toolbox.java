@@ -5,6 +5,10 @@ import java.math.BigDecimal;
 public class Toolbox {
 
 	public static double round(double d, int decimalPlace) {
+		if(Double.isInfinite(d)) {
+			 d=0;
+			 System.out.println("round infinity??!");
+		}
 		BigDecimal bd = new BigDecimal(Double.toString(d));
 		bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
 		return bd.doubleValue();

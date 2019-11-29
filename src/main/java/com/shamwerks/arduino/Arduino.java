@@ -132,7 +132,7 @@ public class Arduino implements SerialPortEventListener {
     
     private String sendCommand(String command)  throws ArduinoException {
         try {
-            //System.out.println("Sending comand: " + command );
+            System.out.println("Sending comand: " + command );
         	String out = command + "\r\n";
             
         	data = null;
@@ -143,7 +143,7 @@ public class Arduino implements SerialPortEventListener {
             int i=0;
             while (!dataReceived){
             	i++;
-            	if (i>=100){
+            	if (i>=1000){
             		 throw new ArduinoException("Time-Out!");
             	}
             	Thread.sleep(10);
@@ -178,7 +178,7 @@ public class Arduino implements SerialPortEventListener {
                         input = new BufferedReader(  new InputStreamReader(  serialPort.getInputStream()  )  );
                     }
                     data = input.readLine();
-                    //System.out.println("RECEIVED FROM ARDUINO : " + data);
+                    System.out.println("RECEIVED FROM ARDUINO : " + data);
                     dataReceived = true;
                     break;
                 default:
